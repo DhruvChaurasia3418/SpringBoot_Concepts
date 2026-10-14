@@ -1,8 +1,41 @@
-# Spring Boot Concepts
+## Spring Boot Concepts
 
-A collection of simple notes and code examples to understand core Spring Boot concepts.
+# 1. Spring web starter why?
+if we have a springboot project without any added dependency and we have simple code to print any message like this 
 
-## 1. Spring Boot Web Starter
+```java
+package beanlife_cycle.demo;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class DemoApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(DemoApplication.class, args);
+        System.out.println("Hello");
+	}
+
+}
+
+```
+in this case JVM will start main thread and execute completely like normal java program and once main thread ends jvm will exit returning 0.
+
+###### but if you add any depency that kan keep main thread alive like 
+web starter sependency
+
+``` java
+<dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-webmvc</artifactId>
+    </dependency>
+```
+
+in this case jvm will start a web server i.e inbuilt tomcat webserver and SpringApplication.run will start execution once web server is up at any port
+in this case program will conitnue to run without exiting so that HTTP requestes can be served
+
+
 
 The behavior of a Spring Boot application depends on the dependencies added to the project.
 
@@ -27,9 +60,13 @@ public class DemoApplication {
 }
 ```
 
-## 2. IoC (Inversion of Control)
+# 2. IoC (Inversion of Control)
 
 IoC means that **Spring manages object creation and lifecycle instead of us creating objects manually using `new`.**
+
+see the thing is you can put @component, @service, @controller, @RestController at top of any class and its singleton bean will be added to the IOC container okay
+now if you want to use this bean you will have to simply do @Autowired at required place but with these annotations only you will be able to see constructor getting called even though we have not used @Autowired anyhwere that means beans are added to IOC by just using annotations how cool is that 
+
 
 ### Bean Creation
 
